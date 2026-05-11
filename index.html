@@ -4,99 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Политика конфиденциальности</title>
+    
+    <!-- 🔤 Подключение шрифта Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* Определение цветовой палитры */
+        /* 🎨 Цветовая палитра и переменные */
         :root {
-            --dark: #0F0F0F;
-            --light: #F8F9F0;
-            --green1: #D8D9C4;
-            --green2: #BCC0A5;
-            --green3: #8C9576;
+            --dark: #0a0a0f;
+            --dark-elevated: #13131a;
+            --light: #f8f9f0;
+            --green1: #d8d9c4;
+            --green2: #bcc0a5;
+            --green3: #8c9576;
+            --green-glow: rgba(140, 149, 118, 0.3);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
         }
 
-        /* Базовые настройки */
+        /* ✨ Базовые настройки */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        body {
-            background-color: var(--dark);
-            color: var(--light);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* Контейнер */
+        body {
+            background: var(--dark);
+            color: var(--light);
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 🌌 Контейнер для частиц */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 📦 Контейнер контента */
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 80px 24px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Типографика */
+        /* 🎭 Анимации появления */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: none;
+        }
+
+        .animate-on-scroll.animated {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* 📝 Типографика */
         h1 {
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--light);
-            letter-spacing: -0.02em;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--light) 0%, var(--green1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
         }
 
         .subtitle {
-            font-size: 18px;
+            font-size: clamp(16px, 2.5vw, 18px);
             color: var(--green2);
-            margin-bottom: 50px;
-            border-bottom: 1px solid var(--green3);
-            padding-bottom: 20px;
+            margin-bottom: 60px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(140, 149, 118, 0.3);
+            font-weight: 400;
         }
 
         h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-top: 40px;
-            margin-bottom: 15px;
+            font-size: clamp(20px, 3vw, 24px);
+            font-weight: 700;
+            margin: 48px 0 20px;
             color: var(--green1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(to bottom, var(--green2), var(--green3));
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        h2:hover::before {
+            height: 32px;
+            background: linear-gradient(to bottom, var(--green1), var(--green2));
         }
 
         p {
             margin-bottom: 20px;
-            color: #E0E0E0; /* Немного светлее для контраста на темном фоне */
+            color: #d0d0d0;
+            font-weight: 400;
         }
 
+        /* 📋 Списки */
         ul {
-            margin-bottom: 20px;
-            padding-left: 20px;
-            color: #E0E0E0;
+            margin: 20px 0 28px 24px;
+            padding-left: 8px;
+            list-style: none;
         }
 
         li {
-            margin-bottom: 10px;
+            margin-bottom: 14px;
+            padding-left: 24px;
+            position: relative;
+            color: #d0d0d0;
+            font-weight: 400;
+            transition: var(--transition);
         }
 
-        /* Ссылки */
+        li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--green2);
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        li:hover {
+            color: var(--light);
+            transform: translateX(4px);
+        }
+
+        li:hover::before {
+            transform: translateX(-2px);
+            color: var(--green1);
+        }
+
+        strong {
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        /* 🔗 Ссылки */
         a {
             color: var(--green2);
             text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 2px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--green1);
+            transition: var(--transition);
         }
 
         a:hover {
             color: var(--light);
-            border-bottom-color: var(--green3);
         }
 
-        /* Блок контактов */
+        a:hover::after {
+            width: 100%;
+        }
+
+        /* 🪟 Glassmorphism карточки */
         .contact-block {
-            background-color: rgba(140, 149, 118, 0.1); /* Прозрачный green3 */
-            border: 1px solid var(--green3);
-            padding: 30px;
-            border-radius: 12px;
-            margin-top: 50px;
+            background: linear-gradient(135deg, 
+                rgba(25, 25, 35, 0.85) 0%, 
+                rgba(35, 35, 50, 0.75) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(140, 149, 118, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            margin-top: 60px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .contact-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--green3), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; transform: translateX(-100%); }
+            50% { opacity: 1; transform: translateX(100%); }
+        }
+
+        .contact-block:hover {
+            transform: translateY(-4px);
+            border-color: var(--green2);
+            box-shadow: 0 25px 80px rgba(140, 149, 118, 0.3);
         }
 
         .contact-block h2 {
@@ -104,98 +264,422 @@
             color: var(--light);
         }
 
-        /* Футер */
+        .contact-block h2::before {
+            background: linear-gradient(to bottom, var(--green1), var(--green2));
+        }
+
+        /* 📧 Email ссылка */
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(140, 149, 118, 0.15);
+            border: 1px solid var(--green3);
+            border-radius: var(--radius-full);
+            color: var(--green2);
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+
+        .email-link:hover {
+            background: rgba(140, 149, 118, 0.3);
+            color: var(--light);
+            transform: scale(1.02);
+            border-color: var(--green2);
+        }
+
+        .email-link::before {
+            content: '✉️';
+            font-size: 16px;
+        }
+
+        /* 🦶 Футер */
         footer {
-            margin-top: 80px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
+            margin-top: 100px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             text-align: center;
             font-size: 14px;
             color: var(--green3);
+            font-weight: 400;
         }
 
-        /* Адаптивность */
+        footer a {
+            color: var(--green2);
+        }
+
+        /* 🎯 Кнопка "Наверх" */
+        .scroll-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--green3), var(--green2));
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--green2), var(--green1));
+        }
+
+        .scroll-top:active {
+            transform: scale(0.95);
+        }
+
+        /* 📊 Индикатор прогресса чтения */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green2), var(--green1));
+            z-index: 1000;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(188, 192, 165, 0.5);
+        }
+
+        /* 📱 Адаптивность */
         @media (max-width: 600px) {
             .container {
-                padding: 40px 20px;
+                padding: 60px 20px;
             }
             
-            h1 {
-                font-size: 32px;
+            .contact-block {
+                padding: 28px 24px;
             }
-
-            .subtitle {
-                font-size: 16px;
+            
+            .scroll-top {
+                width: 44px;
+                height: 44px;
+                bottom: 24px;
+                right: 24px;
             }
+        }
 
-            h2 {
-                font-size: 20px;
+        /* ✨ Микро-анимации */
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-on-scroll {
+                will-change: transform, opacity;
+            }
+            
+            li, a, .email-link, .contact-block {
+                will-change: transform;
+            }
+        }
+
+        /* 🌙 Оптимизация для слабых устройств */
+        @media (prefers-reduced-motion: reduce) {
+            #tsparticles {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
+    <!-- 🌌 Контейнер для частиц -->
+    <div id="tsparticles"></div>
+    
+    <!-- 📊 Индикатор прогресса -->
+    <div class="progress-bar" id="progressBar"></div>
 
     <div class="container">
-        <header>
+        <header class="animate-on-scroll">
             <h1>Политика конфиденциальности</h1>
-            <div class="subtitle">Универсальный документ для приложений и сервисов</div>
+            <div class="subtitle animate-on-scroll delay-1">Универсальный документ для приложений и сервисов</div>
         </header>
 
         <main>
-            <p>Настоящая Политика конфиденциальности описывает, как мы собираем, используем и защищаем вашу личную информацию при использовании наших мобильных приложений, веб-сайтов и сервисов (далее — «Сервис»). Используя наш Сервис, вы соглашаетесь с условиями данной Политики.</p>
+            <p class="animate-on-scroll delay-2">Настоящая Политика конфиденциальности описывает, как мы собираем, используем и защищаем вашу личную информацию при использовании наших мобильных приложений, веб-сайтов и сервисов (далее — «Сервис»). Используя наш Сервис, вы соглашаетесь с условиями данной Политики.</p>
 
-            <h2>1. Сбор информации</h2>
-            <p>Мы можем собирать следующие типы информации:</p>
-            <ul>
+            <h2 class="animate-on-scroll delay-3">1. Сбор информации</h2>
+            <p class="animate-on-scroll delay-3">Мы можем собирать следующие типы информации:</p>
+            <ul class="animate-on-scroll delay-4">
                 <li><strong>Личная информация:</strong> Имя, адрес электронной почты, номер телефона или другие данные, которые вы добровольно предоставляете при регистрации или использовании функций Сервиса.</li>
                 <li><strong>Технические данные:</strong> Информация об устройстве (модель, ОС), IP-адрес, тип браузера, идентификаторы устройств и данные об использовании приложения (время сеанса, действия).</li>
                 <li><strong>Файлы Cookie:</strong> Мы используем технологии отслеживания для улучшения работы Сервиса и персонализации контента.</li>
             </ul>
 
-            <h2>2. Использование информации</h2>
-            <p>Собранная информация используется для следующих целей:</p>
-            <ul>
+            <h2 class="animate-on-scroll delay-3">2. Использование информации</h2>
+            <p class="animate-on-scroll delay-3">Собранная информация используется для следующих целей:</p>
+            <ul class="animate-on-scroll delay-4">
                 <li>Предоставление, поддержка и улучшение функциональности нашего Сервиса.</li>
                 <li>Обеспечение безопасности и предотвращение мошенничества.</li>
                 <li>Коммуникация с пользователями: ответы на запросы, отправка уведомлений об обновлениях или технической поддержке.</li>
                 <li>Аналитика: понимание того, как пользователи взаимодействуют с приложением, для улучшения пользовательского опыта.</li>
             </ul>
 
-            <h2>3. Хранение и защита данных</h2>
-            <p>Мы принимаем разумные меры безопасности для защиты вашей информации от несанкционированного доступа, изменения, раскрытия или уничтожения. Данные хранятся на защищенных серверах с использованием современных методов шифрования. Однако ни один метод передачи данных через Интернет не является на 100% безопасным, поэтому мы не можем гарантировать абсолютную безопасность.</p>
+            <h2 class="animate-on-scroll delay-3">3. Хранение и защита данных</h2>
+            <p class="animate-on-scroll delay-4">Мы принимаем разумные меры безопасности для защиты вашей информации от несанкционированного доступа, изменения, раскрытия или уничтожения. Данные хранятся на защищенных серверах с использованием современных методов шифрования. Однако ни один метод передачи данных через Интернет не является на 100% безопасным, поэтому мы не можем гарантировать абсолютную безопасность.</p>
 
-            <h2>4. Передача данных третьим лицам</h2>
-            <p>Мы не продаем и не сдаем в аренду вашу личную информацию третьим лицам. Мы можем передавать данные только в следующих случаях:</p>
-            <ul>
+            <h2 class="animate-on-scroll delay-3">4. Передача данных третьим лицам</h2>
+            <p class="animate-on-scroll delay-4">Мы не продаем и не сдаем в аренду вашу личную информацию третьим лицам. Мы можем передавать данные только в следующих случаях:</p>
+            <ul class="animate-on-scroll delay-4">
                 <li><strong>Поставщики услуг:</strong> Сторонние компании, помогающие нам в работе Сервиса (хостинг, аналитика, поддержка), обязанные соблюдать конфиденциальность.</li>
                 <li><strong>Юридические требования:</strong> Если это требуется по закону или для защиты наших прав, безопасности пользователей или общества.</li>
             </ul>
 
-            <h2>5. Права пользователей</h2>
-            <p>В зависимости от вашего местоположения, вы можете иметь следующие права:</p>
-            <ul>
+            <h2 class="animate-on-scroll delay-3">5. Права пользователей</h2>
+            <p class="animate-on-scroll delay-4">В зависимости от вашего местоположения, вы можете иметь следующие права:</p>
+            <ul class="animate-on-scroll delay-4">
                 <li>Право на доступ к вашим личным данным.</li>
                 <li>Право на исправление неточных или неполных данных.</li>
                 <li>Право на удаление ваших данных («право на забвение»).</li>
                 <li>Право на отзыв согласия на обработку данных.</li>
             </ul>
-            <p>Для реализации этих прав, пожалуйста, свяжитесь с нами используя контакты ниже.</p>
+            <p class="animate-on-scroll delay-4">Для реализации этих прав, пожалуйста, свяжитесь с нами используя контакты ниже.</p>
 
-            <h2>6. Изменения в Политике</h2>
-            <p>Мы можем время от времени обновлять данную Политику конфиденциальности. Любые изменения будут опубликованы на этой странице с указанием даты последнего обновления. Мы рекомендуем периодически просматривать эту страницу.</p>
+            <h2 class="animate-on-scroll delay-3">6. Изменения в Политике</h2>
+            <p class="animate-on-scroll delay-4">Мы можем время от времени обновлять данную Политику конфиденциальности. Любые изменения будут опубликованы на этой странице с указанием даты последнего обновления. Мы рекомендуем периодически просматривать эту страницу.</p>
 
-            <div class="contact-block">
+            <div class="contact-block animate-on-scroll delay-5">
                 <h2>7. Контакты</h2>
                 <p>Если у вас есть вопросы или предложения относительно данной Политики конфиденциальности, пожалуйста, свяжитесь с нами:</p>
-                <p>Email: <a href="mailto:alfadevprograms@gmail.com">alfadevprograms@gmail.com</a></p>
+                <a href="mailto:alfadevprograms@gmail.com" class="email-link">alfadevprograms@gmail.com</a>
             </div>
         </main>
 
-        <footer>
-            &copy; 2026 AlfaDev. Все права защищены.
+        <footer class="animate-on-scroll">
+            &copy; 2026 <a href="#">AlfaGroup</a>. Все права защищены.
         </footer>
     </div>
 
+    <!-- ⬆️ Кнопка "Наверх" -->
+    <button class="scroll-top" id="scrollTop" aria-label="Наверх">↑</button>
+
+    <!-- 🌌 Библиотека tsparticles -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5.0/tsparticles.bundle.min.js"></script>
+    
+    <script>
+        // 🎬 Инициализация частиц
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Проверка поддержки и предпочтений пользователя
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isMobile = window.innerWidth < 768;
+            
+            if (!prefersReducedMotion) {
+                await tsParticles.load({
+                    id: "tsparticles",
+                    options: {
+                        // 🎨 Основные настройки
+                        fpsLimit: 60,
+                        background: {
+                            color: {
+                                value: "transparent"
+                            }
+                        },
+                        
+                        // 🔗 Связи между частицами
+                        links: {
+                            color: "#8c9576",
+                            distance: 150,
+                            enable: true,
+                            opacity: 0.15,
+                            width: 1,
+                            triangles: {
+                                enable: false
+                            }
+                        },
+                        
+                        // ⚙️ Настройки движения
+                        move: {
+                            direction: "none",
+                            enable: true,
+                            outModes: {
+                                default: "out"
+                            },
+                            random: true,
+                            speed: 0.8,
+                            straight: false,
+                            attract: {
+                                enable: true,
+                                rotate: {
+                                    x: 600,
+                                    y: 1200
+                                }
+                            }
+                        },
+                        
+                        // 🔢 Количество и размер частиц
+                        particles: {
+                            color: {
+                                value: ["#bcc0a5", "#d8d9c4", "#8c9576"]
+                            },
+                            links: {
+                                color: "#8c9576",
+                                distance: 150,
+                                enable: true,
+                                opacity: 0.12,
+                                width: 1
+                            },
+                            move: {
+                                direction: "none",
+                                enable: true,
+                                outModes: {
+                                    default: "out"
+                                },
+                                random: true,
+                                speed: 0.5,
+                                straight: false
+                            },
+                            number: {
+                                density: {
+                                    enable: true,
+                                    area: 800
+                                },
+                                value: isMobile ? 40 : 80
+                            },
+                            opacity: {
+                                value: {
+                                    min: 0.3,
+                                    max: 0.6
+                                },
+                                animation: {
+                                    enable: true,
+                                    speed: 0.5,
+                                    minimumValue: 0.2,
+                                    sync: false
+                                }
+                            },
+                            shape: {
+                                type: "circle"
+                            },
+                            size: {
+                                value: {
+                                    min: 1,
+                                    max: 3
+                                },
+                                animation: {
+                                    enable: true,
+                                    speed: 2,
+                                    minimumValue: 1,
+                                    sync: false
+                                }
+                            }
+                        },
+                        
+                        // 🎭 Интерактивность
+                        interactivity: {
+                            events: {
+                                onHover: {
+                                    enable: true,
+                                    mode: "grab",
+                                    parallax: {
+                                        enable: true,
+                                        force: 30,
+                                        smooth: 10
+                                    }
+                                },
+                                onClick: {
+                                    enable: false
+                                },
+                                resize: true
+                            },
+                            modes: {
+                                grab: {
+                                    distance: 140,
+                                    links: {
+                                        opacity: 0.4,
+                                        width: 1.5
+                                    }
+                                }
+                            }
+                        },
+                        
+                        // 🎨 Детектор движения мыши для параллакса
+                        detectRetina: true,
+                        
+                        // 🔄 Анимация появления
+                        preload: {
+                            delay: 0,
+                            opacity: 0
+                        }
+                    }
+                });
+            }
+
+            // 🎬 Анимация при прокрутке контента
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animateElements.forEach(el => observer.observe(el));
+
+            // 📊 Индикатор прогресса чтения
+            const progressBar = document.getElementById('progressBar');
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (scrollTop / scrollHeight) * 100;
+                progressBar.style.width = `${scrolled}%`;
+            });
+
+            // ⬆️ Кнопка "Наверх"
+            const scrollTopBtn = document.getElementById('scrollTop');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 400) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // ✨ Плавное появление при загрузке
+            setTimeout(() => {
+                document.querySelector('h1')?.classList.add('animated');
+                document.querySelector('.subtitle')?.classList.add('animated');
+            }, 200);
+
+            // 📱 Оптимизация для мобильных: уменьшаем количество частиц при изменении размера
+            window.addEventListener('resize', () => {
+                const engine = tsParticles.domItem.get(0);
+                if (engine && window.innerWidth < 768) {
+                    engine.particles.number.value = 40;
+                } else if (engine) {
+                    engine.particles.number.value = 80;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
